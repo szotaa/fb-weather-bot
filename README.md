@@ -1,2 +1,2 @@
 # fb-weather-bot
-facebook's messenger weather bot
+[![Build Status](https://travis-ci.org/szotaa/fb-weather-bot.svg?branch=master)](https://travis-ci.org/szotaa/fb-weather-bot) ![CodeCoverage](https://sonarcloud.io/api/project_badges/measure?project=pl.szotaa%3Afb-weather-bot&metric=coverage) ![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=pl.szotaa%3Afb-weather-bot&metric=code_smells) ![Bugs](https://sonarcloud.io/api/project_badges/measure?project=pl.szotaa%3Afb-weather-bot&metric=bugs)
