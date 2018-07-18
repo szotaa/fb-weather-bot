@@ -4,3 +4,13 @@ jdk: oraclejdk8
 branches:
   only:
     - master
+
+env:
+  global:
+   - secure: "Epm3oxo57i3L0lGDHF6476SM6/mD6ycT507tAo2vu9uCwDqciOGSMmcg28uZtsBpHmJSB+NbEuneGO4eWrrMwYnlvs5gpRaC0SpmpAsTFuprF4XAF6q4wCvAko9mazdqoj1oBeuXbtSouuGCAvtxSIt+0n4xRyNcJQ2VsdPx1aU0ST0ym9s/PZxs1NXaDgOu38woTji46VR/4NNLe2oI9Uz81LajPxtn0yO0D4sFDe7iKenRmB/RnLIwvfNq/HkUe4A7xZpdRK2a5e9m5fJSKV2KAwcU7L6IBXYRbbn0pHS8td1Ensf9y4dRVy89RUn02A0NJsEH9MwqWjROWyHq+y8YsMcL/N0wH+QaD3pYK/2IOPTYU8e6lHQzl63WkG5OOYi+OjSS9iBMzkw66GTIHhPlKaMm6Cmk4s5FMKi/szCnfgRFc9eLfotw/t+OmJVte1qkIeFw9MhzPaspcEJUwkFcv0hO5Z3eFN8uKtnJQzaTsqYJ3rlRjnWvWD8yKw7TbC/eeovBKHn9wkrSeevBesZNI+xZPXa6HbfrQSqiHjF+k62G1rgTAwHTFYMs4tIgN7SCBasYATjLGYnlyOAuEVxMQqLmpXD7YFpkkSQf4bRMonV+wZexnJHuXoBRV73O/wgkG6jjHCvLwuk8b5mn6FX6OZZDd/q82C+wTaJ1drk="
+   - COMMIT = ${TRAVIS_COMMIT::7}
+
+deploy:
+  provider: heroku
+  api_key: $HEROKU_API_KEY
+  app: fb-weather
