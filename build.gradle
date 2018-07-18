@@ -34,10 +34,11 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
-	testCompile('org.springframework.boot:spring-boot-starter-test',
-				'org.codehaus.groovy:groovy-all:2.4.15',
-				'org.spockframework:spock-core:1.1-groovy-2.4',
-				'org.spockframework:spock-spring:1.1-groovy-2.4')
+	compile('com.github.messenger4j:messenger4j:1.0.0')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.codehaus.groovy:groovy-all:2.4.15')
+	testCompile('org.spockframework:spock-core:1.1-groovy-2.4')
+	testCompile('org.spockframework:spock-spring:1.1-groovy-2.4')
 }
 
 jacocoTestReport {
