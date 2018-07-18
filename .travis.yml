@@ -8,12 +8,20 @@ branches:
 env:
   global:
    - secure: "g+jX7PxR3l2Mgi4Y3vCJIYVOinupK5e6LizD+Osatv4C+i6Ab/sdASrfP5X/sFWSffR22W47fUZB3PFV3TOsJ+HaLqBR6j1HotHOX8uwRGHabGyQrx/fC1AxHkPGMmyuawRxdT3azBiROTUt2J5G8y0t5S9ckXjXNhL4zkspHLmjsHT+mIyjy9MkGQ6B9hCudDkjf0z9XEGUWQct2JmhdrvqbY/JcTkShlErDwftqp7Dnl1sZOs2qSAuphU4aVoQC/YMfIL5RLeB+MWv2LWqCKl6C+YS8NNLKq9JQtx1DWTrnFVAduDxIstrfU1kWgTx4hyA9nOlqmJw60s5O0u/yTFCHWvoWQAWWBHixWcurlZ67eXo1XxTie5i97UDb/3HJRoU3fp7/WwuCUXFcW5HTkp+LdV+ogFziS21d/Nkd4hI/zlONBU/XaaER51KTwq8zqm8EpLwqEReE4scydHYwbJ2jRIH5e2UGPLOlow3teMe7ggYy6w6lnCSu/inb9A2kGW3KLbzrU6IfhPNO97AS8TMIFELmPAt/KRogyg7O+GgVmiuyl3IjD+1DRG2JVqVhRP1E3r7UgpdWZLuCGF0VqHKZ6IUQ2aqZXitXiyeKvcALA62nIKMcxD7E9Fb4wbHhkCTvNPNYc4HuiMDFfxTOrnqgwPmou9VRvfsBcKk6wo="
+   - secure: "DBZlWb7Zwtfkr8QCOJ/6wFerWvtcuHCh++46yv9xw4drvgt7u/D0+iDNZ5R5j46Zm2lMb0X2vwJiezqWNAJJyHaL9w16HLqP+eZ/Ar2Paq63f5ce5TI3eSo/0Vc4KwTcSfq7CzXBhymc2+eElN7SzoAlzS/fE83DNL7CLumsOPOIJO4UOK8uaHLdafbixN/mpNHy4kTwwql4oRgERgSP0WKxlE/EUt2cSquVk16ml+sB8cPF45G0r2yc1xPKefsJDS0Tr9LFiwHmxp+DJD5FTYzsscVLiUvR/ALsdYxZ3AlNSd6b6mdrkT5AbUnyoagwZhsCiCw/gA8llk+6MavYAY56Tb2WztZPPXIzBZZf0RmHNIhCZIN52vxrPTPhH+CqwI24E09wB3JzkgG0UzC0/WOyeaQtlmViTqHh5zkMJ6JNKenuy+i76+h2D4upsLTErxp07hYV+oYRS500ks0SYahwMINm9AEi8PeAaft19fYHv2AGUwWZcf8Fmqni7Gsd0UrphdvCQiwco4E78E5ujlLltEWnSWkXS7m7JZckARWunr93LNbS24jkiJJb3IQSBXcAg3BiRsz+TgtMmihTFPCuvgZC76zJAfdyCaZCz192fMkBz5EOfMvGBbZG0OuNdbyOEEAzK9WY2ios8feSfeGYAUFlSpEiJ0LLiFODOoI="
    - COMMIT = ${TRAVIS_COMMIT::7}
+
+addons:
+  sonarcloud:
+    organization: "szotaa-github"
+    token:
+      secure: $SONAR_TOKEN
 
 sudo: required
 
 script:
   - ./gradlew test jacocoTestCoverageVerification
+  - ./gradlew sonarqube
 
 deploy:
   provider: heroku
