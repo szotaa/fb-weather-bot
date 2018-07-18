@@ -35,6 +35,14 @@ dependencies {
 				'org.spockframework:spock-spring:1.1-groovy-2.4')
 }
 
+jacocoTestReport {
+	reports {
+		xml.enabled = false
+		csv.enabled = false
+		html.destination file("${buildDir}/jacocoReportHtml")
+	}
+}
+
 jacocoTestCoverageVerification {
 	violationRules {
 		rule {
