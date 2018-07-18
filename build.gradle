@@ -44,5 +44,3 @@ jacocoTestCoverageVerification {
 		}
 	}
 }
-
-assemble.dependsOn jacocoTestCoverageVerification

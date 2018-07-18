@@ -10,6 +10,11 @@ env:
    - secure: "g+jX7PxR3l2Mgi4Y3vCJIYVOinupK5e6LizD+Osatv4C+i6Ab/sdASrfP5X/sFWSffR22W47fUZB3PFV3TOsJ+HaLqBR6j1HotHOX8uwRGHabGyQrx/fC1AxHkPGMmyuawRxdT3azBiROTUt2J5G8y0t5S9ckXjXNhL4zkspHLmjsHT+mIyjy9MkGQ6B9hCudDkjf0z9XEGUWQct2JmhdrvqbY/JcTkShlErDwftqp7Dnl1sZOs2qSAuphU4aVoQC/YMfIL5RLeB+MWv2LWqCKl6C+YS8NNLKq9JQtx1DWTrnFVAduDxIstrfU1kWgTx4hyA9nOlqmJw60s5O0u/yTFCHWvoWQAWWBHixWcurlZ67eXo1XxTie5i97UDb/3HJRoU3fp7/WwuCUXFcW5HTkp+LdV+ogFziS21d/Nkd4hI/zlONBU/XaaER51KTwq8zqm8EpLwqEReE4scydHYwbJ2jRIH5e2UGPLOlow3teMe7ggYy6w6lnCSu/inb9A2kGW3KLbzrU6IfhPNO97AS8TMIFELmPAt/KRogyg7O+GgVmiuyl3IjD+1DRG2JVqVhRP1E3r7UgpdWZLuCGF0VqHKZ6IUQ2aqZXitXiyeKvcALA62nIKMcxD7E9Fb4wbHhkCTvNPNYc4HuiMDFfxTOrnqgwPmou9VRvfsBcKk6wo="
    - COMMIT = ${TRAVIS_COMMIT::7}
 
+sudo: required
+
+script:
+  - ./gradlew test jacocoTestCoverageVerification
+
 deploy:
   provider: heroku
   api_key: $HEROKU_API_KEY
