@@ -40,7 +40,7 @@ public class MessengerService {
         log.info("Received text message: " + event.toString());
         TextMessage message = TextMessage.create("elo");
         try {
-            messenger.send(MessagePayload.create(event.recipientId(), MessagingType.RESPONSE, message));
+            messenger.send(MessagePayload.create(event.senderId(), MessagingType.RESPONSE, message));
         } catch (MessengerApiException | MessengerIOException e) {
             log.error("something went wrong: " + e.getMessage());
         }
