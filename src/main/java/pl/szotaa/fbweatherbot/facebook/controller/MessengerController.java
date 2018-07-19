@@ -5,6 +5,9 @@ import com.github.messenger4j.exception.MessengerVerificationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,5 +28,14 @@ public class MessengerController {
 
         this.messengerService.verifyWebHook(mode, token);
         return ResponseEntity.ok(challenge);
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> handleMessage (
+            @RequestBody String payload,
+            @RequestHeader(Messenger.SIGNATURE_HEADER_NAME) String signature) throws MessengerVerificationException {
+
+        this.messengerService.handleMessage(payload, signature);
+        return ResponseEntity.ok().build();
     }
 }
