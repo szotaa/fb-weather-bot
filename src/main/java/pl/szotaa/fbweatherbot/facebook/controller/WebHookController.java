@@ -12,34 +12,53 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.szotaa.fbweatherbot.facebook.service.MessengerService;
+import pl.szotaa.fbweatherbot.facebook.communication.ReceiveService;
+import pl.szotaa.fbweatherbot.facebook.verification.WebHookVerificationService;
+
+/**
+ * Handles all messages sent to our application through Facebook Messenger.
+ * @see <a href="https://developers.facebook.com/docs/graph-api/webhooks/">Facebook WebHook documentation</a>
+ *
+ * @author szotaa
+ */
 
 @Slf4j
 @RestController
-@RequestMapping("/")
+@RequestMapping("/webhook")
 @RequiredArgsConstructor
-public class MessengerController {
+public class WebHookController {
 
-    private final MessengerService messengerService;
+    private final ReceiveService receiveService;
+    private final WebHookVerificationService verificationService;
+
+    /**
+     * WebHook verification endpoint.
+     * @see WebHookVerificationService
+     */
 
     @GetMapping
-    public ResponseEntity<String> verify (
+    public ResponseEntity<String> verifyWebHook (
             @RequestParam(Messenger.MODE_REQUEST_PARAM_NAME) String mode,
             @RequestParam(Messenger.VERIFY_TOKEN_REQUEST_PARAM_NAME) String token,
             @RequestParam(Messenger.CHALLENGE_REQUEST_PARAM_NAME) String challenge) throws MessengerVerificationException {
 
         log.info("controller received verification with mode: " + mode + " token: " + token + " challenge: " + challenge);
-        this.messengerService.verifyWebHook(mode, token);
+        this.verificationService.verifyWebHook(mode, token);
         return ResponseEntity.ok(challenge);
     }
 
+    /**
+     * Incoming payload handler method.
+     * @see ReceiveService
+     */
+
     @PostMapping
-    public ResponseEntity<Void> handleMessage (
+    public ResponseEntity<Void> handlePayload (
             @RequestBody String payload,
             @RequestHeader(Messenger.SIGNATURE_HEADER_NAME) String signature) throws MessengerVerificationException {
 
         log.info("controller received payload: " + payload + " with signature: " + signature);
-        this.messengerService.handleMessage(payload, signature);
+        this.receiveService.handleReceivedPayload(payload, signature);
         return ResponseEntity.ok().build();
     }
 }

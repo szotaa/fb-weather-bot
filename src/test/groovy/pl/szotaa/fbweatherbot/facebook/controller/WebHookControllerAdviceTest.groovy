@@ -3,18 +3,18 @@ package pl.szotaa.fbweatherbot.facebook.controller
 import com.github.messenger4j.Messenger
 import com.github.messenger4j.exception.MessengerVerificationException
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import pl.szotaa.fbweatherbot.facebook.service.MessengerService
+import pl.szotaa.fbweatherbot.facebook.communication.ReceiveService
 import spock.lang.Specification
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-class MessengerControllerAdviceTest extends Specification {
+class WebHookControllerAdviceTest extends Specification {
 
-    def messengerService = Mock(MessengerService)
-    def messengerController = new MessengerController(messengerService)
-    def messengerControllerAdvice = new MessengerControllerAdvice()
+    def messengerService = Mock(ReceiveService)
+    def messengerController = new WebHookController(messengerService)
+    def messengerControllerAdvice = new WebHookControllerAdvice()
     def mockMvc = MockMvcBuilders
             .standaloneSetup(messengerController)
             .setControllerAdvice(messengerControllerAdvice)

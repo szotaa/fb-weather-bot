@@ -2,17 +2,17 @@ package pl.szotaa.fbweatherbot.facebook.controller
 
 import com.github.messenger4j.Messenger
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import pl.szotaa.fbweatherbot.facebook.service.MessengerService
+import pl.szotaa.fbweatherbot.facebook.communication.ReceiveService
 import spock.lang.Specification
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-class MessengerControllerTest extends Specification {
+class WebHookControllerTest extends Specification {
 
-    def messengerService = Mock(MessengerService)
-    def messengerController = new MessengerController(messengerService)
+    def messengerService = Mock(ReceiveService)
+    def messengerController = new WebHookController(messengerService)
     def mockMvc = MockMvcBuilders.standaloneSetup(messengerController).build()
 
     def 'Verifying web hook with correct parameters should return the same string as passed challenge string'() {
