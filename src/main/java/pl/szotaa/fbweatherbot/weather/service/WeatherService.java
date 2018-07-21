@@ -1,14 +1,13 @@
 package pl.szotaa.fbweatherbot.weather.service;
 
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pl.szotaa.fbweatherbot.weather.domain.SearchResult;
 import pl.szotaa.fbweatherbot.weather.domain.Weather;
+import pl.szotaa.fbweatherbot.weather.exception.LocationNotFoundException;
+import pl.szotaa.fbweatherbot.weather.exception.NoForecastException;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class WeatherService {
@@ -17,15 +16,24 @@ public class WeatherService {
 
     private String apiUrl = "https://www.metaweather.com/api/";
 
-    public Weather getWeatherSkipSearch(String location){
-        return null;
+    public Weather getWeatherSkipSearch(String location) throws LocationNotFoundException, NoForecastException {
+        SearchResult[] searchResults = this.searchForLocations(location);
+        return this.getWeatherByWoeid(searchResults[0].getWoeid());
     }
 
-    public Weather getWeatherByWoeid(long woeid){
-        return null;
+    public SearchResult[] searchForLocations(String query) throws LocationNotFoundException {
+        SearchResult[] searchResults = this.restTemplate.getForObject(this.apiUrl + "location/search/?query=" + query, SearchResult[].class);
+        if(searchResults == null || searchResults.length == 0){
+            throw new LocationNotFoundException();
+        }
+        return searchResults;
     }
 
-    public Set<SearchResult> searchForLocations(String query){
-        return null;
+    public Weather getWeatherByWoeid(long woeid) throws NoForecastException {
+        Weather weather = this.restTemplate.getForObject(this.apiUrl + "location/" + woeid, Weather.class);
+        if(weather == null || weather.getForecasts().size() == 0) {
+            throw new NoForecastException();
+        }
+        return weather;
     }
 }
