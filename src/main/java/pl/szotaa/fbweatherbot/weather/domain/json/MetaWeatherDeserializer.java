@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import pl.szotaa.fbweatherbot.weather.domain.Forecast;
@@ -21,9 +21,9 @@ public class MetaWeatherDeserializer extends JsonDeserializer<Weather> {
         ObjectCodec codec = jsonParser.getCodec();
         JsonNode json = codec.readTree(jsonParser);
         JsonNode forecastsJson = json.get("consolidated_weather");
-        Set<Forecast> forecasts = StreamSupport.stream(forecastsJson.spliterator(), false)
+        List<Forecast> forecasts = StreamSupport.stream(forecastsJson.spliterator(), false)
                 .map(this::buildForecast)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
 
         return Weather.builder()
                 .location(this.getLocation(json))
