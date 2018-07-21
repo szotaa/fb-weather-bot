@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Forecast {
+public class Forecast implements Comparable<Forecast> {
 
     private LocalDate applicableDate;
     private String weatherState;
@@ -16,4 +16,9 @@ public class Forecast {
     private double temp;
     private double pressure;
     private double humidity;
+
+    @Override
+    public int compareTo(Forecast o) {
+        return this.applicableDate.compareTo(o.getApplicableDate());
+    }
 }

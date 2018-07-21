@@ -2,10 +2,12 @@ package pl.szotaa.fbweatherbot.weather.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import pl.szotaa.fbweatherbot.weather.domain.json.SearchResultDeserializer;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @JsonDeserialize(using = SearchResultDeserializer.class)
 public class SearchResult {
@@ -18,4 +20,23 @@ public class SearchResult {
      */
 
     private long woeid;
+
+    @Override
+    public int hashCode() {
+        int result = Long.hashCode(woeid);
+        result *= 31;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this){
+            return true;
+        }
+        if(!(obj instanceof SearchResult)){
+            return false;
+        }
+        SearchResult compared = (SearchResult) obj;
+        return this.woeid == compared.getWoeid();
+    }
 }
