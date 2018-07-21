@@ -54,8 +54,8 @@ public class WebHookController {
 
     @PostMapping
     public ResponseEntity<Void> handlePayload (
-            @RequestBody String payload,
-            @RequestHeader(Messenger.SIGNATURE_HEADER_NAME) String signature) throws MessengerVerificationException {
+            @RequestHeader(Messenger.SIGNATURE_HEADER_NAME) String signature,
+            @RequestBody String payload ) throws MessengerVerificationException {
 
         log.info("controller received payload: " + payload + " with signature: " + signature);
         this.receiveService.handleReceivedPayload(payload, signature);

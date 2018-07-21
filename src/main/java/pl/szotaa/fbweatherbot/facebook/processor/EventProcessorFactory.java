@@ -22,7 +22,7 @@ public class EventProcessorFactory {
 
     private final ResponseService responseService;
 
-    public EventProcessor getProcessingContext(EventProcessorStrategy strategy){
+    public EventProcessor getEventProcessor(EventProcessorStrategy strategy){
         return new EventProcessor(responseService, strategy);
     }
 }

@@ -1,24 +1,32 @@
 package pl.szotaa.fbweatherbot.facebook.communication
 
 import com.github.messenger4j.Messenger
-import spock.lang.Ignore
+import pl.szotaa.fbweatherbot.facebook.processor.EventProcessorFactory
 import spock.lang.Specification
+
+import java.util.function.Consumer
+
+import static org.mockito.ArgumentMatchers.any
+import static org.mockito.ArgumentMatchers.anyString
+import static org.mockito.Mockito.mock
+import static org.mockito.Mockito.times
+import static org.mockito.Mockito.verify
 
 class ReceiveServiceTest extends Specification {
 
-    Messenger messenger = GroovyMock()
-    ReceiveService messengerService = new ReceiveService(messenger)
+    def messenger = mock(Messenger)
+    def eventProcessorFactory = Mock(EventProcessorFactory)
+    def messengerService = new ReceiveService(messenger, eventProcessorFactory)
 
-    @Ignore//TODO: fix not working mock
-    def "Correct values passed for web hook verification, method executes without exception"() {
+    def "Messenger called with proper arguments when received payload is handled"() {
         given:
-            def mode = "subscribe"
-            def verifyToken = "verifyToken"
+            def payload = "payload"
+            def signature = "appSecret"
 
         when:
-            messengerService.verifyWebHook(mode, verifyToken)
+            messengerService.handleReceivedPayload(payload, signature)
 
         then:
-           1 * messenger.verifyWebhook(_, _)
+            verify(messenger, times(1)).onReceiveEvents(anyString(), any(Optional.class), any(Consumer.class))
     }
 }

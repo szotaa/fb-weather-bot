@@ -28,7 +28,7 @@ public class ReceiveService {
         Optional<String> signatureOptional = Optional.ofNullable(signature);
         this.messenger.onReceiveEvents(payload, signatureOptional, event -> {
             if(event.isTextMessageEvent()){
-                EventProcessor eventProcessor = eventProcessorFactory.getProcessingContext(new TextMessageEventProcessorStrategy());
+                EventProcessor eventProcessor = eventProcessorFactory.getEventProcessor(new TextMessageEventProcessorStrategy());
                 eventProcessor.process(event.asTextMessageEvent());
             }
             else {
