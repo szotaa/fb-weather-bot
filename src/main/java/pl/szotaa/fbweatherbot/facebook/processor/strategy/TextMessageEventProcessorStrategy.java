@@ -2,10 +2,9 @@ package pl.szotaa.fbweatherbot.facebook.processor.strategy;
 
 import com.github.messenger4j.webhook.event.BaseEvent;
 import com.github.messenger4j.webhook.event.TextMessageEvent;
-import java.util.Arrays;
-import java.util.List;
 import pl.szotaa.fbweatherbot.facebook.domain.GetWeatherSkipSearchRequest;
 import pl.szotaa.fbweatherbot.facebook.domain.Request;
+import pl.szotaa.fbweatherbot.facebook.domain.UnknownRequest;
 
 /**
  * Implementation of {@link EventProcessorStrategy} which handles received text messages.
@@ -21,11 +20,11 @@ public final class TextMessageEventProcessorStrategy implements EventProcessorSt
     @Override
     public Request processEvent(BaseEvent event) {
         TextMessageEvent messageEvent = (TextMessageEvent) event;
-        List<String> words = Arrays.asList(messageEvent.text().split("\\s+"));
-        if(words.contains("weather") || words.size() == 2 || words.indexOf("weather") == 0) {
-            return new GetWeatherSkipSearchRequest(words.get(1));
+        String text = messageEvent.text().toLowerCase();
+        if(text.startsWith("weather ")) {
+            return new GetWeatherSkipSearchRequest(text.substring(7, text.length()));
         } else {
-            throw new RuntimeException("message not readable");
+            return new UnknownRequest(text);
         }
     }
 }

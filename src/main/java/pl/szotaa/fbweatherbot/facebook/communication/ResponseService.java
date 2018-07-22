@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.szotaa.fbweatherbot.facebook.domain.GetWeatherSkipSearchRequest;
 import pl.szotaa.fbweatherbot.facebook.domain.Request;
+import pl.szotaa.fbweatherbot.facebook.domain.UnknownRequest;
 import pl.szotaa.fbweatherbot.weather.domain.Weather;
 import pl.szotaa.fbweatherbot.weather.exception.LocationNotFoundException;
 import pl.szotaa.fbweatherbot.weather.exception.NoForecastException;
@@ -33,6 +34,8 @@ public class ResponseService {
     public void respond(Request request, String recipientId){
         if(request instanceof GetWeatherSkipSearchRequest){
             this.respondWithTextWeatherSkipSearch(request.getParameter(), recipientId);
+        } else if (request instanceof UnknownRequest) {
+            this.respondWithRequestUnknown(request.getParameter(), recipientId);
         }
     }
 
@@ -53,6 +56,16 @@ public class ResponseService {
 
         TextMessage textMessage = TextMessage.create(text);
         MessagePayload messagePayload = MessagePayload.create(recipientId, MessagingType.RESPONSE, textMessage);
+        try {
+            this.messenger.send(messagePayload);
+        } catch (MessengerApiException | MessengerIOException e) {
+            log.info(e.getMessage());
+        }
+    }
+
+    private void respondWithRequestUnknown(String cause, String recipentId){
+        TextMessage textMessage = TextMessage.create("Unknown command: " + cause);
+        MessagePayload messagePayload = MessagePayload.create(recipentId, MessagingType.RESPONSE, textMessage);
         try {
             this.messenger.send(messagePayload);
         } catch (MessengerApiException | MessengerIOException e) {
