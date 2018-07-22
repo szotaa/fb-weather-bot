@@ -1,7 +1,7 @@
 package pl.szotaa.fbweatherbot.facebook.processor.strategy;
 
 import com.github.messenger4j.webhook.event.BaseEvent;
-import pl.szotaa.fbweatherbot.facebook.domain.Response;
+import pl.szotaa.fbweatherbot.facebook.domain.Request;
 
 /**
  * Strategy interface for processing events received from Facebook Messenger.
@@ -10,5 +10,5 @@ import pl.szotaa.fbweatherbot.facebook.domain.Response;
  */
 
 public interface EventProcessorStrategy {
-    Response processEvent(BaseEvent event);
+    Request processEvent(BaseEvent event);
 }

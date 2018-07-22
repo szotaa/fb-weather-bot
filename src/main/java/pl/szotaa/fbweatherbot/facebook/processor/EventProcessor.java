@@ -4,7 +4,7 @@ import com.github.messenger4j.webhook.event.BaseEvent;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import pl.szotaa.fbweatherbot.facebook.communication.ResponseService;
-import pl.szotaa.fbweatherbot.facebook.domain.Response;
+import pl.szotaa.fbweatherbot.facebook.domain.Request;
 import pl.szotaa.fbweatherbot.facebook.processor.strategy.EventProcessorStrategy;
 
 /**
@@ -22,7 +22,7 @@ public class EventProcessor {
     private final EventProcessorStrategy processingStrategy;
 
     public void process(BaseEvent event){
-        Response result = this.processingStrategy.processEvent(event);
+        Request result = this.processingStrategy.processEvent(event);
         responseService.respond(result, event.senderId());
     }
 }
