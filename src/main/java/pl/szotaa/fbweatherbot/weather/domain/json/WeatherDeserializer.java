@@ -1,7 +1,6 @@
 package pl.szotaa.fbweatherbot.weather.domain.json;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -14,13 +13,22 @@ import java.util.stream.StreamSupport;
 import pl.szotaa.fbweatherbot.weather.domain.Forecast;
 import pl.szotaa.fbweatherbot.weather.domain.Weather;
 
-public class MetaWeatherDeserializer extends JsonDeserializer<Weather> {
+/**
+ * Deserializes JSON object to Java {@link Weather}
+ *
+ * @author szotaa
+ */
+
+public class WeatherDeserializer extends JsonDeserializer<Weather> {
 
     @Override
-    public Weather deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException, JsonProcessingException {
+    public Weather deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException {
         ObjectCodec codec = jsonParser.getCodec();
         JsonNode json = codec.readTree(jsonParser);
         JsonNode forecastsJson = json.get("consolidated_weather");
+        if(forecastsJson == null){
+            return null;
+        }
         List<Forecast> forecasts = StreamSupport.stream(forecastsJson.spliterator(), false)
                 .map(this::buildForecast)
                 .collect(Collectors.toList());

@@ -8,13 +8,23 @@ import pl.szotaa.fbweatherbot.weather.domain.Weather;
 import pl.szotaa.fbweatherbot.weather.exception.LocationNotFoundException;
 import pl.szotaa.fbweatherbot.weather.exception.NoForecastException;
 
+/**
+ * MetaWeather API client.
+ *
+ * @author szotaa
+ */
+
 @Service
 @RequiredArgsConstructor
-public class WeatherService {
+public class WeatherClientService {
 
     private final RestTemplate restTemplate;
 
-    private String apiUrl = "https://www.metaweather.com/api/";
+    private final String apiUrl = "https://www.metaweather.com/api/";
+
+    /**
+     * Searches for the specified query and returns weather data for first found location.
+     */
 
     public Weather getWeatherSkipSearch(String location) throws LocationNotFoundException, NoForecastException {
         SearchResult[] searchResults = this.searchForLocations(location);
@@ -31,7 +41,7 @@ public class WeatherService {
 
     public Weather getWeatherByWoeid(long woeid) throws NoForecastException {
         Weather weather = this.restTemplate.getForObject(this.apiUrl + "location/" + woeid, Weather.class);
-        if(weather == null || weather.getForecasts().size() == 0) {
+        if(weather == null || weather.getForecasts().isEmpty()) {
             throw new NoForecastException();
         }
         return weather;

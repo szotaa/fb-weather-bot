@@ -25,7 +25,7 @@ class SearchResultDeserializerTest extends Specification {
             def searchResult = jacksonTester.parseObject(json)
 
         then:
-            searchResult.title.equals("Warsaw")
-            searchResult.woeid.equals(523920l)
+            searchResult.title == ("Warsaw")
+            searchResult.woeid == (523920l)
     }
 }

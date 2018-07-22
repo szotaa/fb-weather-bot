@@ -16,13 +16,13 @@ class ForecastTest extends Specification {
                     .applicableDate(LocalDate.now())
                     .build()
 
-            def forecastTommorow = Forecast.builder()
+            def forecastTomorrow = Forecast.builder()
                     .applicableDate(LocalDate.now().plusDays(1))
                     .build()
 
         expect:
             forecastToday.compareTo(forecastToday) == 0
             forecastToday.compareTo(forecastYesterday) > 0
-            forecastToday.compareTo(forecastTommorow) < 0
+            forecastToday.compareTo(forecastTomorrow) < 0
     }
 }

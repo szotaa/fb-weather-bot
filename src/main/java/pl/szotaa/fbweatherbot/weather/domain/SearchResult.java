@@ -6,6 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.szotaa.fbweatherbot.weather.domain.json.SearchResultDeserializer;
 
+/**
+ * Represents search result when searching for WOEIDS by location name.
+ *
+ * @author szotaa
+ */
+
 @Getter
 @Setter
 @AllArgsConstructor

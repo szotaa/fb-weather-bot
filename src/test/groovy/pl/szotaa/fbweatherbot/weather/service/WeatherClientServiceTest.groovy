@@ -7,9 +7,9 @@ import org.springframework.test.web.client.MockRestServiceServer
 import org.springframework.web.client.RestTemplate
 import pl.szotaa.fbweatherbot.config.RestTemplateConfig
 import pl.szotaa.fbweatherbot.weather.domain.SearchResult
+import pl.szotaa.fbweatherbot.weather.domain.Weather
 import pl.szotaa.fbweatherbot.weather.exception.LocationNotFoundException
 import pl.szotaa.fbweatherbot.weather.exception.NoForecastException
-import spock.lang.Ignore
 import spock.lang.Specification
 
 import java.time.LocalDate
@@ -17,11 +17,11 @@ import java.time.LocalDate
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess
 
-@RestClientTest([WeatherService, RestTemplateConfig])
-class WeatherServiceTest extends Specification {
+@RestClientTest([WeatherClientService, RestTemplateConfig])
+class WeatherClientServiceTest extends Specification {
 
     @Autowired
-    private WeatherService weatherService
+    private WeatherClientService weatherService
 
     @Autowired
     private RestTemplate restTemplate
@@ -92,7 +92,7 @@ class WeatherServiceTest extends Specification {
 
     def "When correct location is specified, response is returned"() {
         given:
-        server.expect(requestTo("https://www.metaweather.com/api/location/search/?query=warsaw"))
+            server.expect(requestTo("https://www.metaweather.com/api/location/search/?query=warsaw"))
                 .andRespond(withSuccess(warsawLocation, MediaType.APPLICATION_JSON_UTF8))
 
             def location = "warsaw"
@@ -119,24 +119,24 @@ class WeatherServiceTest extends Specification {
 
         then:
             response.getForecasts().size() == 2
-            response.location.equals("Warsaw")
-            response.parentLocation.equals("Poland")
+            response.location == ("Warsaw")
+            response.parentLocation == ("Poland")
             def forecast1 = response.getForecasts().get(0)
-            forecast1.getApplicableDate().equals(LocalDate.of(2018, 7, 21))
-            forecast1.getWeatherState().equals("Heavy Cloud")
-            forecast1.getWeatherStateAbbr().equals("hc")
-            forecast1.getMaxTemp().equals(27.6025d)
-            forecast1.getMinTemp().equals(17.6575d)
-            forecast1.getTemp().equals(25.93d)
-            forecast1.getPressure().equals(1017.03d)
-            forecast1.getHumidity().equals(58d)
+            forecast1.getApplicableDate() == (LocalDate.of(2018, 7, 21))
+            forecast1.getWeatherState() == ("Heavy Cloud")
+            forecast1.getWeatherStateAbbr() == ("hc")
+            forecast1.getMaxTemp() == (27.6025d)
+            forecast1.getMinTemp() == (17.6575d)
+            forecast1.getTemp() == (25.93d)
+            forecast1.getPressure() == (1017.03d)
+            forecast1.getHumidity() == (58d)
     }
 
-    @Ignore //TODO: investigate
     def "When incorrect woeid is passed, exception is thrown"(){
         given:
             server.expect(requestTo("https://www.metaweather.com/api/location/0"))
                 .andRespond(withSuccess(emptyWeather, MediaType.APPLICATION_JSON_UTF8))
+
             def location = 0
 
         when:
@@ -144,5 +144,24 @@ class WeatherServiceTest extends Specification {
 
         then:
             thrown(NoForecastException)
+    }
+
+    def "When getWeatherSkipSearch is called, weather for first result in searchForLocations is returned"(){
+        given:
+            server.expect(requestTo("https://www.metaweather.com/api/location/search/?query=warsaw"))
+                .andRespond(withSuccess(warsawLocation, MediaType.APPLICATION_JSON_UTF8))
+            server.expect(requestTo("https://www.metaweather.com/api/location/1"))
+                .andRespond(withSuccess(exampleWeather, MediaType.APPLICATION_JSON_UTF8))
+
+            def location = "warsaw"
+
+        when:
+            Weather response = weatherService.getWeatherSkipSearch(location)
+
+        then:
+            response != null
+            response instanceof Weather
+            response.location == "Warsaw"
+
     }
 }

@@ -9,7 +9,7 @@ import spock.lang.Specification
 import java.time.LocalDate
 
 @JsonTest
-class MetaWeatherDeserializerTest extends Specification {
+class WeatherDeserializerTest extends Specification {
 
     @Autowired
     JacksonTester<Weather> jacksonTester
@@ -56,16 +56,16 @@ class MetaWeatherDeserializerTest extends Specification {
 
         then:
             weather.getForecasts().size() == 2
-            weather.location.equals("London")
-            weather.parentLocation.equals("England")
+            weather.location == ("London")
+            weather.parentLocation == ("England")
             def forecast1 = weather.getForecasts().get(0)
-            forecast1.getApplicableDate().equals(LocalDate.of(2018, 7, 21))
-            forecast1.getWeatherState().equals("Heavy Cloud")
-            forecast1.getWeatherStateAbbr().equals("hc")
-            forecast1.getMaxTemp().equals(27.6025d)
-            forecast1.getMinTemp().equals(17.6575d)
-            forecast1.getTemp().equals(25.93d)
-            forecast1.getPressure().equals(1017.03d)
-            forecast1.getHumidity().equals(58d)
+            forecast1.getApplicableDate() == (LocalDate.of(2018, 7, 21))
+            forecast1.getWeatherState() == ("Heavy Cloud")
+            forecast1.getWeatherStateAbbr() == ("hc")
+            forecast1.getMaxTemp() == (27.6025d)
+            forecast1.getMinTemp() == (17.6575d)
+            forecast1.getTemp() == (25.93d)
+            forecast1.getPressure() == (1017.03d)
+            forecast1.getHumidity() == (58d)
     }
 }

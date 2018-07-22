@@ -5,17 +5,23 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import pl.szotaa.fbweatherbot.weather.domain.json.MetaWeatherDeserializer;
+import pl.szotaa.fbweatherbot.weather.domain.json.WeatherDeserializer;
+
+/**
+ * Weather object containing {@link Forecast}s for few days for specified location.
+ *
+ * @author szotaa
+ */
 
 @Getter
 @Setter
 @Builder
-@EqualsAndHashCode
-@JsonDeserialize(using = MetaWeatherDeserializer.class)
+@JsonDeserialize(using = WeatherDeserializer.class)
 public class Weather {
+
+    private static final String CELSIUS_DEGREES = "°C";
 
     private String location;
     private String parentLocation;
@@ -39,9 +45,9 @@ public class Weather {
                 stringBuilder.append(String.format("%tA", forecast.getApplicableDate().getDayOfWeek())).append(":\n\n");
             }
             stringBuilder.append(forecast.getWeatherState()).append("\n");
-            stringBuilder.append(String.format("Temperature: %.2f", forecast.getTemp())).append(" °C\n");
-            stringBuilder.append(String.format("Max temperature: %.2f", forecast.getMaxTemp())).append(" °C\n");
-            stringBuilder.append(String.format("Min temperature: %.2f", forecast.getMinTemp())).append(" °C\n");
+            stringBuilder.append(String.format("Temperature: %.2f", forecast.getTemp())).append(CELSIUS_DEGREES).append("\n");
+            stringBuilder.append(String.format("Max temperature: %.2f", forecast.getMaxTemp())).append(CELSIUS_DEGREES).append("\n");
+            stringBuilder.append(String.format("Min temperature: %.2f", forecast.getMinTemp())).append(CELSIUS_DEGREES).append("\n");
             stringBuilder.append(String.format("Humidity: %.0f", forecast.getHumidity())).append(" %\n");
             stringBuilder.append(String.format("Pressure: %.2f", forecast.getPressure())).append(" hPa\n");
             stringBuilder.append("\n\n");

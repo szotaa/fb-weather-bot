@@ -2,9 +2,16 @@ package pl.szotaa.fbweatherbot.weather.domain;
 
 import java.time.LocalDate;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+/**
+ * Represents weather forecast for one day.
+ * @see Weather
+ *
+ * @author szotaa
+ */
+
+@Getter
 @Builder
 public class Forecast implements Comparable<Forecast> {
 
