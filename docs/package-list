@@ -1,0 +1,14 @@
+pl.szotaa.fbweatherbot
+pl.szotaa.fbweatherbot.config
+pl.szotaa.fbweatherbot.facebook
+pl.szotaa.fbweatherbot.facebook.communication
+pl.szotaa.fbweatherbot.facebook.controller
+pl.szotaa.fbweatherbot.facebook.domain
+pl.szotaa.fbweatherbot.facebook.processor
+pl.szotaa.fbweatherbot.facebook.processor.strategy
+pl.szotaa.fbweatherbot.facebook.verification
+pl.szotaa.fbweatherbot.weather
+pl.szotaa.fbweatherbot.weather.domain
+pl.szotaa.fbweatherbot.weather.domain.json
+pl.szotaa.fbweatherbot.weather.exception
+pl.szotaa.fbweatherbot.weather.service
