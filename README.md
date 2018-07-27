@@ -21,7 +21,7 @@ Fb-weather-bot is a very simple weather bot for Facebook Messenger. Weather data
   
   # documentation
   
-  <a href="https://szotaa.github.io/fb-weather-bot">Javadoc</a>
+  <a href="https://szotaa.github.io/fb-weather-bot/">Javadocs</a>
   
   # example
   
